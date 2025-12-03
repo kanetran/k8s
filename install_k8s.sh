@@ -26,5 +26,3 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 # Bật kubelet service
 sudo systemctl enable --now kubelet
-
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
