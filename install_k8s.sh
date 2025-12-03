@@ -1,11 +1,30 @@
 #!/bin/bash
 
+#!/bin/bash
+
+# Update hệ thống
 sudo apt update
-sudo apt install -y apt-transport-https curl
-sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt install -y apt-transport-https ca-certificates curl gpg
+
+# Thêm key của Kubernetes (repo mới)
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes.gpg
+
+# Thêm repo Kubernetes mới
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" \
+  | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Update lại
 sudo apt update
+
+# Cài kubeadm, kubelet, kubectl
 sudo apt install -y kubelet kubeadm kubectl
+
+# Khoá version
 sudo apt-mark hold kubelet kubeadm kubectl
-sudo systemctl enable kubelet && sudo systemctl start kubelet
-kubectl apply -f https://docs.projectcalico.org/v3.15/manifests/calico.yaml
+
+# Bật kubelet service
+sudo systemctl enable --now kubelet
+
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
