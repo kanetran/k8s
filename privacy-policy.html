@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chính sách quyền riêng tư của trò chơi Meme Match, do Anh Tran phát triển.">
+  <title>Meme Match — Chính sách quyền riêng tư</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1b2520; background: #f5f7f3; }
+    body { margin: 0; line-height: 1.75; }
+    main { max-width: 800px; margin: 0 auto; padding: 40px 24px 64px; }
+    header { padding-bottom: 24px; border-bottom: 2px solid #b1d680; }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.25; margin: 12px 0; }
+    h2 { font-size: 1.25rem; margin-top: 32px; line-height: 1.4; }
+    a { color: #235b31; overflow-wrap: anywhere; }
+    .brand { font-weight: 800; letter-spacing: .04em; color: #326b25; }
+    .meta { color: #566257; }
+    .summary { background: #e9f2df; padding: 16px 20px; border-radius: 12px; margin-top: 24px; }
+    li { margin-bottom: 8px; }
+    code { overflow-wrap: anywhere; }
+    footer { margin-top: 40px; border-top: 1px solid #cbd4c6; padding-top: 20px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">MEME MATCH</div>
+    <h1>Chính sách quyền riêng tư</h1>
+    <p class="meta">Ngày có hiệu lực và cập nhật gần nhất: <time datetime="2026-11-13">13 tháng 11 năm 2026</time></p>
+    <p>Chính sách này áp dụng cho ứng dụng Android <strong>Meme Match</strong> (tên gói <code>net.tuanh.memematch</code>), do <strong>Anh Tran</strong> phát triển và vận hành.</p>
+    <p>Liên hệ về quyền riêng tư: <a href="mailto:tuananhbk1996@gmail.com">tuananhbk1996@gmail.com</a>.</p>
+  </header>
+
+  <div class="summary">
+    <strong>Thông tin chính:</strong> Ảnh và khung hình camera được phân tích trên thiết bị.
+    Tính năng tìm meme gửi 51 điểm biểu cảm tới máy chủ, không gửi ảnh gốc.
+    Video bạn chủ động ghi được lưu trên thiết bị. Ứng dụng có quảng cáo Google AdMob,
+    có thể thu thập dữ liệu thiết bị, hoạt động và chẩn đoán như mô tả bên dưới.
+  </div>
+
+  <h2>1. Camera, ảnh và phân tích khuôn mặt</h2>
+  <p>Meme Match sử dụng camera sau khi bạn cấp quyền, hoặc ảnh bạn tự chọn qua trình chọn ảnh của hệ thống, để tìm meme có biểu cảm tương tự và chơi chế độ bắt chước biểu cảm. Ứng dụng không cần truy cập toàn bộ thư viện ảnh để xử lý một ảnh bạn chọn.</p>
+  <p>Ứng dụng sử dụng mô hình MediaPipe chạy trên thiết bị để phát hiện khuôn mặt và tính điểm biểu cảm. Trong chế độ tìm meme, ứng dụng gửi một vector gồm 51 giá trị số mô tả biểu cảm qua HTTPS tới backend để so sánh với dữ liệu meme. Vector này là dữ liệu suy ra từ khuôn mặt, dù không chứa ảnh gốc; không nên coi việc chỉ gửi giá trị số là không có xử lý dữ liệu khuôn mặt.</p>
+  <p>Ứng dụng không tải ảnh gốc, khung hình camera hoặc video bạn ghi lên backend để tìm meme. Mô hình trên thiết bị không gửi ảnh tới Google để phân tích. Chúng tôi sử dụng kết quả phân tích cho trò chơi và việc tìm meme, không để xác minh danh tính hay tạo hồ sơ nhận dạng người dùng. Chế độ bắt chước so sánh biểu cảm trực tiếp trên thiết bị với biểu cảm mục tiêu tải từ backend.</p>
+
+  <h2>2. Dữ liệu gửi tới backend và hạ tầng</h2>
+  <p>Backend nhận điểm biểu cảm khi bạn yêu cầu tìm meme, cùng thông tin kỹ thuật cần để phục vụ yêu cầu, chẳng hạn địa chỉ IP, thời điểm, đường dẫn và trạng thái yêu cầu. Backend trả kết quả phù hợp và đường dẫn tải ảnh meme. Mã backend hiện tại dùng điểm biểu cảm để truy vấn kết quả, không có thao tác lưu vector yêu cầu vào cơ sở dữ liệu meme.</p>
+  <p>Các nhà cung cấp hạ tầng gồm Cloudflare (API và truyền tải), Aiven (cơ sở dữ liệu meme) và Amazon Web Services/S3 (lưu trữ, cung cấp ảnh meme). Các dịch vụ này xử lý thông tin cần thiết để thực hiện tác vụ; ví dụ, vector đi qua API và cơ sở dữ liệu khi so sánh, còn máy chủ ảnh nhận thông tin yêu cầu tải ảnh. Nhật ký vận hành, metadata yêu cầu và thông tin lỗi có thể được xử lý để bảo mật, chẩn đoán và duy trì dịch vụ. Ứng dụng không yêu cầu tài khoản, tên, số điện thoại hoặc email để chơi.</p>
+
+  <h2>3. Video được ghi và dữ liệu trên thiết bị</h2>
+  <p>Ứng dụng chỉ bắt đầu ghi clip trò chơi khi bạn chủ động chọn ghi. Clip gồm hình ảnh camera và các thành phần trò chơi như meme mục tiêu, đồng hồ và mức độ. Tính năng này không ghi âm microphone và không quay toàn bộ màn hình thiết bị.</p>
+  <p>Video được lưu vào thư viện video của thiết bị, trong thư mục Movies/Meme Match trên Android. Mục Archive cho phép xem và xóa các clip của ứng dụng. Ảnh thu nhỏ và ảnh tạm phục vụ xử lý có thể được lưu trong bộ nhớ đệm. Ảnh gốc bạn chọn từ thư viện không bị ứng dụng xóa.</p>
+
+  <h2>4. Quảng cáo và lựa chọn quyền riêng tư</h2>
+  <p>Meme Match tích hợp Google AdMob và Google User Messaging Platform để hiển thị quảng cáo và quản lý lựa chọn đồng ý khi áp dụng. Google Mobile Ads SDK có thể thu thập, chia sẻ địa chỉ IP (có thể suy ra vị trí gần đúng), mã nhận dạng thiết bị/tài khoản như mã quảng cáo Android, tương tác trong ứng dụng/quảng cáo và thông tin chẩn đoán. Các dữ liệu này phục vụ quảng cáo, đo lường, phân tích và chống gian lận. Việc xử lý phụ thuộc cấu hình, khu vực và lựa chọn của bạn.</p>
+  <p>Ứng dụng không chủ động chuyển ảnh, video hoặc vector biểu cảm cho AdMob để nhắm mục tiêu quảng cáo. Khi Google yêu cầu lựa chọn đồng ý, ứng dụng hiển thị biểu mẫu tương ứng. Bạn có thể mở <strong>Privacy choices</strong> trong Archive khi tùy chọn này được yêu cầu và hiển thị. Bạn cũng có thể quản lý, đặt lại hoặc xóa mã quảng cáo trong phần cài đặt Android, tùy phiên bản hệ điều hành.</p>
+  <p>Tham khảo <a href="https://policies.google.com/privacy">Chính sách quyền riêng tư của Google</a> và <a href="https://developers.google.com/admob/android/privacy/play-data-disclosure">công bố dữ liệu của Google Mobile Ads SDK</a>.</p>
+
+  <h2>5. Mục đích sử dụng và chia sẻ dữ liệu</h2>
+  <p>Dữ liệu được sử dụng để cung cấp tính năng camera, so khớp biểu cảm, tìm và tải meme, ghi/xem clip do bạn yêu cầu, hiển thị quảng cáo, xử lý lựa chọn đồng ý, bảo vệ và khắc phục lỗi dịch vụ. Chúng tôi không bán ảnh, video hoặc dữ liệu biểu cảm của bạn. Dữ liệu được xử lý bởi các nhà cung cấp nêu trên trong phạm vi chức năng họ cung cấp, và có thể được tiết lộ khi cần tuân thủ nghĩa vụ pháp luật.</p>
+  <p>Nhà cung cấp có thể xử lý dữ liệu tại quốc gia khác nơi bạn sinh sống, theo cơ sở hạ tầng và chính sách của họ. Thông tin thêm: <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare</a>, <a href="https://aiven.io/privacy">Aiven</a> và <a href="https://aws.amazon.com/privacy/">AWS</a>.</p>
+
+  <h2>6. Lưu giữ và xóa dữ liệu</h2>
+  <p>Ảnh tạm được ứng dụng cố gắng xóa khi đặt lại luồng chơi, thay ảnh hoặc đóng thành phần liên quan; dữ liệu đệm còn lại có thể được hệ điều hành thu hồi hoặc xóa qua cài đặt ứng dụng. Điểm biểu cảm được giữ trong bộ nhớ trong quá trình xử lý và được gửi để thực hiện yêu cầu so khớp; backend hiện không tạo hồ sơ người dùng hay lưu vector yêu cầu vào bảng meme.</p>
+  <p>Video lưu trong thư viện được giữ cho đến khi bạn xóa qua Archive hoặc ứng dụng thư viện của thiết bị. Gỡ cài đặt ứng dụng có thể không xóa video đã lưu vào thư viện dùng chung. Nhật ký hạ tầng và dữ liệu quảng cáo có thời gian lưu giữ riêng theo cấu hình dịch vụ và chính sách của nhà cung cấp; chúng không nhất thiết bị xóa khi bạn gỡ ứng dụng.</p>
+  <p>Bạn có thể gửi yêu cầu truy cập, chỉnh sửa, xóa hoặc hạn chế xử lý dữ liệu tới email liên hệ. Hãy cung cấp thông tin cần thiết để xác định yêu cầu, không gửi ảnh khuôn mặt hay giấy tờ nhạy cảm nếu chưa được yêu cầu. Do ứng dụng không có tài khoản người dùng, chúng tôi có thể cần thêm thông tin để xác định dữ liệu liên quan và sẽ giải thích những giới hạn áp dụng.</p>
+
+  <h2>7. Quyền truy cập và lựa chọn của bạn</h2>
+  <p>Bạn có thể từ chối hoặc thu hồi quyền camera trong cài đặt Android; khi đó các tính năng camera không hoạt động, nhưng bạn vẫn có thể sử dụng trình chọn ảnh khi khả dụng. Trên phiên bản Android cũ, lưu video có thể yêu cầu quyền ghi bộ nhớ. Ứng dụng không yêu cầu quyền microphone để ghi clip. Bạn có thể ngừng gửi điểm biểu cảm bằng cách không sử dụng chức năng tìm meme và ngừng mọi hoạt động của ứng dụng bằng cách đóng hoặc gỡ cài đặt.</p>
+
+  <h2>8. Bảo mật</h2>
+  <p>Ứng dụng gửi yêu cầu backend và tải ảnh qua HTTPS. Chúng tôi hạn chế việc truyền ảnh bằng cách phân tích ảnh trên thiết bị và chỉ gửi điểm biểu cảm cần cho việc so khớp. Tuy nhiên, không có phương thức truyền hoặc lưu trữ nào bảo đảm an toàn tuyệt đối.</p>
+
+  <h2>9. Trẻ em và yêu cầu của phụ huynh</h2>
+  <p>Nếu bạn là phụ huynh/người giám hộ và có thắc mắc về dữ liệu của trẻ khi sử dụng Meme Match, vui lòng liên hệ email bên dưới. Chúng tôi sẽ xem xét yêu cầu và thực hiện các bước phù hợp với nghĩa vụ áp dụng và khả năng xác định dữ liệu. Không gửi thông tin nhạy cảm của trẻ qua kênh công khai.</p>
+
+  <h2>10. Thay đổi và liên hệ</h2>
+  <p>Chính sách có thể được cập nhật khi tính năng hoặc cách xử lý dữ liệu thay đổi. Bản mới được công bố trên trang này với ngày cập nhật tương ứng; nếu thay đổi cần thông báo hoặc đồng ý bổ sung, chúng tôi sẽ thực hiện theo yêu cầu áp dụng.</p>
+  <footer>
+    <p><strong>Meme Match — Anh Tran</strong><br>
+    Email: <a href="mailto:tuananhbk1996@gmail.com">tuananhbk1996@gmail.com</a></p>
+  </footer>
+</main>
+</body>
+</html>
